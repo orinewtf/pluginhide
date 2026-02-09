@@ -1,105 +1,36 @@
 # PluginHide
 
-Lightweight Minecraft plugin for **hiding plugin commands**  
-and preventing information leaks through tab-completion.
-
-Designed as a **clean, fast alternative to PLHide**, without unnecessary overhead.
-
----
-
-## Overview
-
-PluginHide completely removes plugin-related commands from player visibility.
-
-For regular players, hidden commands:
-- do not appear in TAB-completion
-- cannot be executed
-- behave as if they **do not exist on the server**
-
-Instead of Bukkit’s default error, the plugin sends a **custom configurable message**
-(e.g. `Command not found`).
-
----
-
-## Core Goal
-
-> Prevent players from discovering installed plugins.
-
-This includes:
-- `/plugins`, `/pl`, `/version`
-- `plugin:command` namespace usage
-- tab-complete plugin enumeration
-
-Performance and simplicity are the main priorities.
-
----
+Lightweight plugin for Spigot/Paper 1.16.5 that hides commands from regular players to reduce plugin information leaks.
 
 ## Features
 
-- Removes hidden commands from **TAB-completion**
+- Filters hidden commands from TAB-completion
 - Blocks execution of hidden commands
-- Fully masks plugin namespaces (`plugin:command`)
-- Custom replacement message instead of Bukkit errors
-- Two operating modes: **BLACKLIST / WHITELIST**
-- Bypass permission for admins
-- No dependencies
-- Minimal performance impact
+- Masks namespace commands (`plugin:command`)
+- Sends custom replacement message instead of default unknown-command output
+- Supports `BLACKLIST` and `WHITELIST` modes
+- Supports bypass permission for admins
+- No external dependencies
 
----
+## Compatibility
 
-## How It Works
+- Spigot / Paper 1.16.5
+- Java 8+
 
-PluginHide operates on two levels:
+## Command
 
-### 1. Tab-Complete Filtering (Primary)
+- `/cmdmask reload` - reload plugin configuration
 
-Hidden commands are removed **before** they are sent to the player,
-preventing plugin discovery via TAB.
+## Permissions
 
-### 2. Command Execution Masking
+- `pluginhide.bypass` - bypass TAB filtering and command masking
+- `pluginhide.reload` - allows using `/cmdmask reload`
 
-If a player manually types a hidden command:
-- execution is cancelled
-- a custom message is sent
-- Bukkit’s `Unknown command` message is suppressed
-
-To the player, the command simply does not exist.
-
----
-
-## Modes
-
-### BLACKLIST
-
-Only commands listed in `commands` are hidden.
+## Configuration (`config.yml`)
 
 ```yml
 mode: BLACKLIST
-commands:
-  - pl
-  - plugins
-  - version
-  - ver
-
-Recommended for most servers.
-WHITELIST
-
-Only commands listed in commands are allowed.
-
-All other commands are hidden and masked.
-
-mode: WHITELIST
-commands:
-  - help
-  - spawn
-  - msg
-
-Useful for hubs, lobbies, or restricted environments.
-Configuration
-config.yml
-
-mode: BLACKLIST
-
+bypass-permission: pluginhide.bypass
 commands:
   - pl
   - plugins
@@ -108,47 +39,29 @@ commands:
   - luckperms
   - lp
 
-bypass-permission: pluginhide.bypass
-
-case-sensitive: false
-
-messages.yml
-
 command-not-found:
   enabled: true
-  message: "&cCommand not found."
+  message: "{prefix}&cКоманда не найдена."
 
-Supports:
+messages:
+  prefix: "&b&lPluginHide &8>> &7"
+  no-permission: "{prefix}&cНедостаточно прав."
+  reload-success: "{prefix}&aКонфигурация перезагружена."
+  usage: "{prefix}&7Использование: &f/{label} reload"
+```
 
-    & color codes
+## Modes
 
-    RGB (#RRGGBB)
+### BLACKLIST
 
-Commands
+Commands listed in `commands` are hidden and blocked.
 
-/pluginhide reload
+### WHITELIST
 
-Reloads configuration without restarting the server.
-Permissions
+Only commands listed in `commands` are visible and executable; all others are hidden and blocked.
 
-    pluginhide.bypass
-    Full access. Commands are visible in TAB and not masked.
+## Author
 
-    pluginhide.reload
-    Allows /pluginhide reload.
+- `orine`
 
-Compatibility
-
-    Minecraft 1.16.5
-
-    Tested on:
-
-        Paper
-
-        Purpur
-
-        Spigot
-
-Java 8+
-
-License MIT
+## License MIT
