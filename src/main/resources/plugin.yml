@@ -1,0 +1,17 @@
+name: PluginHide
+main: me.orine.pluginhide.PluginHidePlugin
+version: 1.0.0
+author: orine
+api-version: 1.16
+commands:
+  cmdmask:
+    description: Перезагрузить плагин
+    usage: /cmdmask reload
+    permission: pluginhide.reload
+permissions:
+  pluginhide.bypass:
+    description: Обходить маскировку
+    default: op
+  pluginhide.reload:
+    description: Перезагружать плагин
+    default: op

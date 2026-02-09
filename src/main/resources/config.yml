@@ -1,0 +1,19 @@
+﻿mode: BLACKLIST
+bypass-permission: pluginhide.bypass
+commands:
+  - pl
+  - plugins
+  - version
+  - ver
+  - luckperms
+  - lp
+
+command-not-found:
+  enabled: true
+  message: "{prefix}&cКоманда не найдена."
+
+messages:
+  prefix: "&b&lPluginHide &8>> &7"
+  no-permission: "{prefix}&cНедостаточно прав."
+  reload-success: "{prefix}&aКонфигурация перезагружена."
+  usage: "{prefix}&7Использование: &f/{label} reload"
